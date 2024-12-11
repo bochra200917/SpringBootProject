@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier l'Immobilier</title>
+    <link th:replace="layout/default-layout::link">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            color: #2c3e50;
+        }
+
+        form {
+            background-color: white;
+            width: 50%;
+            margin: 30px auto;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #3498db;
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body th:replace="layout/default-layout::body(title='Modifier un Immobilier')">
+    <div th:fragment="content">
+        <div class="form-container">
+            <form th:action="@{/immobilier/update/{id}(id=${immobilierId})}" th:object="${immobilierForm}" method="post"
+                enctype="multipart/form-data">
+                <input type="hidden" th:value="${immobilierId}" name="immobilierId" />
+
+                <label for="titre">Titre</label>
+                <input type="text" th:field="*{titre}" id="titre" name="titre" />
+
+                <label for="superficie">Superficie</label>
+                <input type="number" th:field="*{superficie}" id="superficie" name="superficie" />
+
+                <label for="prix">Prix</label>
+                <input type="number" th:field="*{prix}" id="prix" name="prix" />
+
+                <label for="localisation">Localisation</label>
+                <input type="text" th:field="*{localisation}" id="localisation" name="localisation" />
+
+                <label for="description">Description</label>
+                <textarea th:field="*{description}" id="description" name="description"></textarea>
+
+                <label for="contact">Contact</label>
+                <input type="text" th:field="*{contact}" id="contact" name="contact" />
+
+                <label for="typeBien">Type de bien :</label>
+                <select name="typeBien" id="typeBien">
+                    <option value="" th:selected="${immobilierForm.typeBien == null}">Sélectionnez un type</option>
+                    <option th:each="type : ${typeBien}" th:value="${type.name()}" th:text="${type.name()}"
+                        th:selected="${immobilierForm.typeBien == type}">Type</option>
+                </select>
+
+                <label for="photo">Photo</label>
+                <input type="file" th:field="*{photo}" id="photo" name="photo" />
+
+                <button type="submit">Mettre à jour</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

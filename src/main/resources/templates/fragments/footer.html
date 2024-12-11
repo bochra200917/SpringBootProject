@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script type="text/javascript"></script>
+</head>
+
+<body>
+    <footer class="mt-5 bg-light py-4">
+        <div class="container">
+            <div class="row mb-3">
+                <div class="col text-center">
+                    <p class="mb-0">&copy; <span th:text="${#dates.year(#dates.createNow())}"></span>
+                        LocaSpace. All rights reserved.</p>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col text-center">
+                    <a href="/annonces" class="mx-3">Privacy Policy</a>|
+                    <a href="/annonces" class="mx-3">Terms of Use</a>|
+                    <a href="/annonces" class="mx-3">Contact</a>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col text-center">
+                    <p>Contact us : (+216) 77777777, Tunis, Tunisia</p>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col text-center">
+                    <a href="https://facebook.com" target="_blank" class="mx-3">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" class="mx-3">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" class="mx-3">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

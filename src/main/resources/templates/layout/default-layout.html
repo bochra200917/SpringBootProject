@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Default Layout</title>
+    <script type="text/javascript"></script>
+    <link rel="stylesheet" th:href="@{/webjars/bootswatch/dist/flatly/bootstrap.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+
+<body>
+    <!--Header-->
+    <div th:replace="~{fragments/header::header(title=${title})}"></div>
+    <!--Main-->
+    <div class="container" th:insert="~{::content}"></div>
+    <!--Footer-->
+    <div th:replace="~{fragments/footer::footer}"></div>
+</body>
+
+</html>

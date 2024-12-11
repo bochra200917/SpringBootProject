@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Immobiliers</title>
+    <link th:replace="layout/default-layout::link">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            color: #2c3e50;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #2980b9;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ecf0f1;
+        }
+
+        a {
+            text-decoration: none;
+            color: #2980b9;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        a:hover {
+            color: #1abc9c;
+        }
+
+        .btn-add {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 10px;
+            background-color: #27ae60;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-add:hover {
+            background-color: #2ecc71;
+        }
+
+        .immobilier-photo {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body th:replace="layout/default-layout::body(title='Liste des Immobiliers')">
+    <div th:fragment="content">
+        <table>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Prix</th>
+                    <th>Superficie</th>
+                    <th>Localisation</th>
+                    <th>Contact</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="immobilier : ${immobiliers}">
+                    <td th:text="${immobilier.titre}"></td>
+                    <td th:text="${immobilier.description}"></td>
+                    <td th:text="${immobilier.prix}"></td>
+                    <td th:text="${immobilier.superficie}"></td>
+                    <td th:text="${immobilier.localisation}"></td>
+                    <td th:text="${immobilier.contact}"></td>
+                    <td>
+                        <a th:href="@{/immobilier/update/{id}(id=${immobilier.idIm})}">Modifier</a>
+                        <a th:href="@{/immobilier/delete/{id}(id=${immobilier.idIm})}">Supprimer</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="/immobilier/create" class="btn-add">Ajouter un immobilier</a>
+    </div>
+</body>
+
+</html>
