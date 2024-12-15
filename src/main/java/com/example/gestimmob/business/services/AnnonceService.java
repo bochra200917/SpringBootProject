@@ -2,6 +2,7 @@ package com.example.gestimmob.business.services;
 
 import com.example.gestimmob.dao.entities.Annonce;
 import com.example.gestimmob.dao.entities.Bien;
+import com.example.gestimmob.dao.enums.TypeAnnonce;
 import com.example.gestimmob.dao.enums.TypeBien;
 
 import java.util.List;
@@ -18,7 +19,11 @@ public interface AnnonceService {
 
     void deleteAnnonce(Long id);
 
-    List<Annonce> getAnnoncesByTypeBien(TypeBien typeBien);
-
     List<Annonce> getAnnoncesByBien(Bien bien);
+
+    List<Annonce> getAnnoncesByTypeBien(TypeBien typeBien);
+    
+    List<Annonce> getAnnoncesByTypeAnnonce(TypeAnnonce typeAnnonce);
+
+    List<Annonce> getAnnoncesByTypeBienAndTypeAnnonce(TypeBien typeBien, TypeAnnonce typeAnnonce);
 }

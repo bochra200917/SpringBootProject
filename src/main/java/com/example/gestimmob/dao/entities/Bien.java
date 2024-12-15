@@ -1,5 +1,6 @@
 package com.example.gestimmob.dao.entities;
 
+import com.example.gestimmob.dao.enums.TypeAnnonce;
 import com.example.gestimmob.dao.enums.TypeBien;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,9 +29,12 @@ public class Bien {
 
     private String photo;
 
-    @Enumerated(EnumType.STRING)
-    private TypeBien typeBien;
-
     @OneToOne(mappedBy = "bien")
     private Annonce annonce;
+    
+    @Enumerated(EnumType.STRING)
+    private TypeAnnonce typeAnnonce;
+
+    @Enumerated(EnumType.STRING)
+    private TypeBien typeBien;
 }

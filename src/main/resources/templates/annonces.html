@@ -117,18 +117,27 @@
 
 <body th:replace="layout/default-layout::body">
     <div th:fragment="content">
-        <div class="search-form">
-            <form action="#" th:action="@{/annonces/filter}" method="get">
-                <label for="typeBien">Filtrer par type de bien :</label>
-                <select name="typeBien" id="typeBien">
-                    <option value="">Tous les types</option>
-                    <option value="maison" th:selected="${typeBien == 'maison'}">Maison</option>
-                    <option value="terrain" th:selected="${typeBien == 'terrain'}">Terrain</option>
-                </select>
-                <button type="submit">Filtrer</button>
-            </form>
-        </div>
-
+        <form action="/filter" method="get">
+            <label for="typeBien">Type de bien :</label>
+            <select name="typeBien" id="typeBien">
+                <option value="">Tous</option>
+                <option th:each="type : ${T(com.example.gestimmob.dao.enums.TypeBien).values()}"
+                        th:value="${type.name()}"
+                        th:text="${type.name()}"
+                        th:selected="${type.name() == typeBien}"></option>
+            </select>
+        
+            <label for="typeAnnonce">Type d'annonce :</label>
+            <select name="typeAnnonce" id="typeAnnonce">
+                <option value="">Tous</option>
+                <option th:each="type : ${T(com.example.gestimmob.dao.enums.TypeAnnonce).values()}"
+                        th:value="${type.name()}"
+                        th:text="${type.name()}"
+                        th:selected="${type.name() == typeAnnonce}"></option>
+            </select>
+        
+            <button type="submit">Filtrer</button>
+        </form>
         <h1>Liste des Annonces</h1>
         <div class="container">
             <div th:each="annonce : ${annonces}" class="card">

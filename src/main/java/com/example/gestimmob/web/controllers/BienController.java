@@ -45,6 +45,7 @@ public class BienController {
     public String showCreateForm(Model model) {
         model.addAttribute("immobilierForm", new BienForm());
         model.addAttribute("typeBien", TypeBien.values());
+        model.addAttribute("typeAnnonce", TypeAnnonce.values());
         return "add-immobilier";
     }
 
@@ -56,6 +57,7 @@ public class BienController {
             Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("typeBien", TypeBien.values());
+            model.addAttribute("typeAnnonce", TypeAnnonce.values());
             return "add-immobilier";
         }
         Bien immobilier = new Bien();
@@ -66,6 +68,7 @@ public class BienController {
         immobilier.setDescription(immobilierForm.getDescription());
         immobilier.setContact(immobilierForm.getContact());
         immobilier.setTypeBien(immobilierForm.getTypeBien());
+        immobilier.setTypeAnnonce(immobilierForm.getTypeAnnonce());
         if (!photo.isEmpty()) {
             String fileName = photo.getOriginalFilename();
             Path imagePath = Paths.get("src/main/resources/static/images/" + fileName);
@@ -76,6 +79,7 @@ public class BienController {
                     e.printStackTrace();
                     model.addAttribute("errorMessage", "Erreur lors du téléchargement de la photo.");
                     model.addAttribute("typeBien", TypeBien.values());
+                    model.addAttribute("typeAnnonce", TypeAnnonce.values());
                     return "add-immobilier";
                 }
             }
@@ -84,7 +88,7 @@ public class BienController {
         immobilierService.addImmobilier(immobilier);
         Annonce annonce = new Annonce();
         annonce.setBien(immobilier);
-        annonce.setTypeAnnonce(TypeAnnonce.vente);
+        annonce.setTypeAnnonce(immobilierForm.getTypeAnnonce()); // TypeAnnonce récupéré du formulaire
         annonce.setEcheance(LocalDate.now().plusMonths(6));
         annonceService.addAnnonce(annonce);
         return "redirect:/immobilier/list";
@@ -104,9 +108,12 @@ public class BienController {
         immobilierForm.setDescription(immobilier.getDescription());
         immobilierForm.setContact(immobilier.getContact());
         immobilierForm.setTypeBien(immobilier.getTypeBien());
+        immobilierForm.setTypeAnnonce(immobilier.getTypeAnnonce()); // Ajout du typeAnnonce
+
         model.addAttribute("immobilierForm", immobilierForm);
         model.addAttribute("immobilierId", id);
         model.addAttribute("typeBien", TypeBien.values());
+        model.addAttribute("typeAnnonce", TypeAnnonce.values()); // Ajout des types d'annonces
         return "edit-immobilier";
     }
 
@@ -121,16 +128,21 @@ public class BienController {
         if (!id.equals(immobilierId)) {
             model.addAttribute("errorMessage", "Les IDs ne correspondent pas.");
             model.addAttribute("typeBien", TypeBien.values());
+            model.addAttribute("typeAnnonce", TypeAnnonce.values());
             return "edit-immobilier";
         }
         if (bindingResult.hasErrors()) {
             model.addAttribute("typeBien", TypeBien.values());
+            model.addAttribute("typeAnnonce", TypeAnnonce.values());
             return "edit-immobilier";
         }
+
         Bien immobilier = immobilierService.getImmobilierById(immobilierId);
         if (immobilier == null) {
             return "redirect:/immobilier/list";
         }
+
+        // Mise à jour des champs de Bien
         immobilier.setTitre(immobilierForm.getTitre());
         immobilier.setSuperficie(immobilierForm.getSuperficie());
         immobilier.setPrix(immobilierForm.getPrix());
@@ -138,6 +150,9 @@ public class BienController {
         immobilier.setDescription(immobilierForm.getDescription());
         immobilier.setContact(immobilierForm.getContact());
         immobilier.setTypeBien(immobilierForm.getTypeBien());
+        immobilier.setTypeAnnonce(immobilierForm.getTypeAnnonce());
+
+        // Gestion de l'image
         if (!photo.isEmpty()) {
             String fileName = photo.getOriginalFilename();
             Path imagePath = Paths.get("src/main/resources/static/images/" + fileName);
@@ -148,12 +163,24 @@ public class BienController {
                     e.printStackTrace();
                     model.addAttribute("errorMessage", "Erreur lors du téléchargement de la photo.");
                     model.addAttribute("typeBien", TypeBien.values());
+                    model.addAttribute("typeAnnonce", TypeAnnonce.values());
                     return "edit-immobilier";
                 }
             }
             immobilier.setPhoto("images/" + fileName);
         }
+
+        // Mettre à jour le bien
         immobilierService.updateImmobilier(immobilier);
+
+        // Mise à jour de l'annonce associée si elle existe
+        if (immobilier.getAnnonce() != null) {
+            // Propagation du typeAnnonce de Bien vers l'Annonce
+            Annonce annonce = immobilier.getAnnonce();
+            annonce.setTypeAnnonce(immobilier.getTypeAnnonce()); // Synchronisation du typeAnnonce
+            annonceService.updateAnnonce(annonce); // Mise à jour de l'annonce
+        }
+
         return "redirect:/immobilier/list";
     }
 

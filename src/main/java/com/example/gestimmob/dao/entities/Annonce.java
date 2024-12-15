@@ -25,7 +25,7 @@ public class Annonce {
 
     private LocalDate echeance;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "bien_id", referencedColumnName = "idIm")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Bien bien;

@@ -107,6 +107,13 @@
                         th:selected="${immobilierForm.typeBien == type}">Type</option>
                 </select>
 
+                <label for="typeAnnonce">Type de l'annonce :</label>
+                <select name="typeAnnonce" id="typeAnnonce">
+                    <option value="" th:selected="${immobilierForm.typeAnnonce == null}">Sélectionnez un type</option>
+                    <option th:each="type : ${typeAnnonce}" th:value="${type.name()}" th:text="${type.name()}"
+                        th:selected="${immobilierForm.typeAnnonce == type}">Type</option>
+                </select>
+
                 <label for="photo">Photo</label>
                 <input type="file" th:field="*{photo}" id="photo" name="photo" />
 

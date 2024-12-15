@@ -100,9 +100,17 @@
                 <div>
                     <label for="typeBien">Type de bien :</label>
                     <select id="typeBien" th:field="*{typeBien}">
+                        <option value="" th:selected="*{typeBien == null}">Sélectionnez un type</option>
                         <option th:each="type : ${typeBien}" th:value="${type}" th:text="${type}"></option>
                     </select>
-                    <span th:if="${#fields.hasErrors('typeBien')}" th:errors="*{typeBien}"></span>
+                </div>
+
+                <div>
+                    <label for="typeAnnonce">Type de Annonce :</label>
+                    <select id="typeAnnonce" th:field="*{typeAnnonce}">
+                        <option value="" th:selected="*{typeAnnonce == null}">Sélectionnez un type</option>
+                        <option th:each="type : ${typeAnnonce}" th:value="${type}" th:text="${type}"></option>
+                    </select>
                 </div>
 
                 <label for="photo">Photo :</label>

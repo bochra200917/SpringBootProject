@@ -83,6 +83,7 @@
             object-fit: cover;
             border-radius: 5px;
         }
+
     </style>
 </head>
 
@@ -97,6 +98,8 @@
                     <th>Superficie</th>
                     <th>Localisation</th>
                     <th>Contact</th>
+                    <th>Type Bien</th>
+                    <th>Type Annonce</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -108,6 +111,8 @@
                     <td th:text="${immobilier.superficie}"></td>
                     <td th:text="${immobilier.localisation}"></td>
                     <td th:text="${immobilier.contact}"></td>
+                    <td th:text="${immobilier.typeBien}"></td>
+                    <td th:text="${immobilier.typeAnnonce}"></td>
                     <td>
                         <a th:href="@{/immobilier/update/{id}(id=${immobilier.idIm})}">Modifier</a>
                         <a th:href="@{/immobilier/delete/{id}(id=${immobilier.idIm})}">Supprimer</a>
