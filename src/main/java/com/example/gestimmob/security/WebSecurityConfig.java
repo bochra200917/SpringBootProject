@@ -11,9 +11,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Configuration
 @EnableWebSecurity
+@Slf4j
 public class WebSecurityConfig {
+
 
         @Autowired
         private UserDetailsService uds;
@@ -31,6 +35,7 @@ public class WebSecurityConfig {
                                                 .loginPage("/login")
                                                 .permitAll()
                                                 .successHandler((request, response, authentication) -> {
+                                                        log.info("Connexion réussie pour l'utilisateur : {}", authentication.getName());
                                                         if (authentication.getAuthorities().stream()
                                                                         .anyMatch(authority -> authority.getAuthority()
                                                                                         .equals("ADMIN"))) {
@@ -38,10 +43,21 @@ public class WebSecurityConfig {
                                                         } else {
                                                                 response.sendRedirect("/annonces");
                                                         }
-                                                }))
+                                                }).failureHandler((request, response, exception) -> {
+                                                        log.error("Erreur de connexion : {}", exception.getMessage());
+                                                        response.sendRedirect("/login?error=true");
+                                                })
+                                                
+                                                )
                                 .exceptionHandling(exceptionHandling -> exceptionHandling
                                                 .accessDeniedPage("/access-denied"))
-                                .logout(logout -> logout.permitAll());
+                                .logout(logout -> logout.logoutSuccessHandler((request, response, authentication) -> {
+                                        if (authentication != null) {
+                                            log.info("Déconnexion réussie pour l'utilisateur : {}", authentication.getName());
+                                        }
+                                        response.sendRedirect("/login?logout=true");
+                                    })
+                                    .permitAll());
                 return http.build();
         }
 
