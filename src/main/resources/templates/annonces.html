@@ -17,10 +17,65 @@
 
         h1 {
             text-align: center;
-            margin-top: 50px;
+            margin-top: 30px;
             color: #2c3e50;
         }
 
+        /* Filter Section */
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        form label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        form select {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            background-color: #f9f9f9;
+            color: #333;
+            transition: border-color 0.3s ease;
+            min-width: 180px;
+        }
+
+        form select:focus {
+            outline: none;
+            border-color: #2980b9;
+        }
+
+        button[type="submit"] {
+            background-color: #2b95ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #1d6999;
+            transform: scale(1.05);
+        }
+
+        /* Cards Section */
         .container {
             display: flex;
             flex-wrap: wrap;
@@ -81,43 +136,32 @@
 
         .btn-details {
             text-decoration: none;
-            background-color: #27ae60;
+            background-color: #1d6999;
             color: white;
             padding: 8px 15px;
             border-radius: 5px;
             text-align: center;
             transition: background-color 0.3s;
+            transition: transform 0.5s;
+
         }
 
         .btn-details:hover {
-            background-color: #2ecc71;
-        }
-
-        button[type="submit"] {
-            background-color: #2b95ff;
-            text-size-adjust: 10px;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
+            background-color: #2c3e50;
+            color : white  ; 
             text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            margin: 10px 0;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #1d6999;
+            transform: scale(1.05);  
         }
     </style>
 </head>
 
 <body th:replace="layout/default-layout::body">
     <div th:fragment="content">
-        <form action="/filter" method="get">
+          <!-- Page Title -->
+          <h1>Liste des Annonces</h1>
+
+        <!-- Filter Form -->
+        <form action="/filter" method="get" class="m-3">
             <label for="typeBien">Type de bien :</label>
             <select name="typeBien" id="typeBien">
                 <option value="">Tous</option>
@@ -126,7 +170,7 @@
                         th:text="${type.name()}"
                         th:selected="${type.name() == typeBien}"></option>
             </select>
-        
+
             <label for="typeAnnonce">Type d'annonce :</label>
             <select name="typeAnnonce" id="typeAnnonce">
                 <option value="">Tous</option>
@@ -135,10 +179,13 @@
                         th:text="${type.name()}"
                         th:selected="${type.name() == typeAnnonce}"></option>
             </select>
-        
+
             <button type="submit">Filtrer</button>
         </form>
-        <h1>Liste des Annonces</h1>
+
+      
+
+        <!-- Annonces Cards -->
         <div class="container">
             <div th:each="annonce : ${annonces}" class="card">
                 <img th:src="@{'/' + ${annonce.bien.photo}}" alt="Image de l'annonce">

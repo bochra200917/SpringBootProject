@@ -5,122 +5,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier l'Immobilier</title>
+    <!-- Bootstrap CSS -->
     <link th:replace="layout/default-layout::link">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7fc;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-
-        h1 {
-            text-align: center;
-            margin-top: 50px;
-            color: #2c3e50;
-        }
-
-        form {
-            background-color: white;
-            width: 50%;
-            margin: 30px auto;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-
-        label {
-            display: block;
-            margin: 10px 0 5px;
-            font-weight: bold;
-        }
-
-        input,
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        button {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background-color: #2980b9;
-            color: white;
-            border: none;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #3498db;
-        }
-
-        .form-container {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body th:replace="layout/default-layout::body(title='Modifier un Immobilier')">
     <div th:fragment="content">
-        <div class="form-container">
-            <form th:action="@{/immobilier/update/{id}(id=${immobilierId})}" th:object="${immobilierForm}" method="post"
-                enctype="multipart/form-data">
-                <input type="hidden" th:value="${immobilierId}" name="immobilierId" />
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-sm">
+                       
+                        <div class="card-body">
+                            <form th:action="@{/immobilier/update/{id}(id=${immobilierId})}" th:object="${immobilierForm}" method="post" enctype="multipart/form-data">
+                                <input type="hidden" th:value="${immobilierId}" name="immobilierId" />
 
-                <label for="titre">Titre</label>
-                <input type="text" th:field="*{titre}" id="titre" name="titre" />
+                                <!-- Titre -->
+                                <div class="mb-3">
+                                    <label for="titre" class="form-label">Titre</label>
+                                    <input type="text" class="form-control" th:field="*{titre}" id="titre" name="titre" placeholder="Entrez le titre">
+                                </div>
 
-                <label for="superficie">Superficie</label>
-                <input type="number" th:field="*{superficie}" id="superficie" name="superficie" />
+                                <!-- Superficie -->
+                                <div class="mb-3">
+                                    <label for="superficie" class="form-label">Superficie</label>
+                                    <input type="number" class="form-control" th:field="*{superficie}" id="superficie" name="superficie" placeholder="Entrez la superficie">
+                                </div>
 
-                <label for="prix">Prix</label>
-                <input type="number" th:field="*{prix}" id="prix" name="prix" />
+                                <!-- Prix -->
+                                <div class="mb-3">
+                                    <label for="prix" class="form-label">Prix</label>
+                                    <input type="number" class="form-control" th:field="*{prix}" id="prix" name="prix" placeholder="Entrez le prix">
+                                </div>
 
-                <label for="localisation">Localisation</label>
-                <input type="text" th:field="*{localisation}" id="localisation" name="localisation" />
+                                <!-- Localisation -->
+                                <div class="mb-3">
+                                    <label for="localisation" class="form-label">Localisation</label>
+                                    <input type="text" class="form-control" th:field="*{localisation}" id="localisation" name="localisation" placeholder="Entrez la localisation">
+                                </div>
 
-                <label for="description">Description</label>
-                <textarea th:field="*{description}" id="description" name="description"></textarea>
+                                <!-- Description -->
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea class="form-control" th:field="*{description}" id="description" name="description" rows="4" placeholder="Entrez une description"></textarea>
+                                </div>
 
-                <label for="contact">Contact</label>
-                <input type="text" th:field="*{contact}" id="contact" name="contact" />
+                                <!-- Contact -->
+                                <div class="mb-3">
+                                    <label for="contact" class="form-label">Contact</label>
+                                    <input type="text" class="form-control" th:field="*{contact}" id="contact" name="contact" placeholder="Entrez les informations de contact">
+                                </div>
 
-                <label for="typeBien">Type de bien :</label>
-                <select name="typeBien" id="typeBien">
-                    <option value="" th:selected="${immobilierForm.typeBien == null}">Sélectionnez un type</option>
-                    <option th:each="type : ${typeBien}" th:value="${type.name()}" th:text="${type.name()}"
-                        th:selected="${immobilierForm.typeBien == type}">Type</option>
-                </select>
+                                <!-- Type de Bien -->
+                                <div class="mb-3">
+                                    <label for="typeBien" class="form-label">Type de bien</label>
+                                    <select class="form-select" name="typeBien" id="typeBien">
+                                        <option value="" th:selected="${immobilierForm.typeBien == null}">Sélectionnez un type</option>
+                                        <option th:each="type : ${typeBien}" th:value="${type.name()}" th:text="${type.name()}" th:selected="${immobilierForm.typeBien == type}">Type</option>
+                                    </select>
+                                </div>
 
-                <label for="typeAnnonce">Type de l'annonce :</label>
-                <select name="typeAnnonce" id="typeAnnonce">
-                    <option value="" th:selected="${immobilierForm.typeAnnonce == null}">Sélectionnez un type</option>
-                    <option th:each="type : ${typeAnnonce}" th:value="${type.name()}" th:text="${type.name()}"
-                        th:selected="${immobilierForm.typeAnnonce == type}">Type</option>
-                </select>
+                                <!-- Type d'Annonce -->
+                                <div class="mb-3">
+                                    <label for="typeAnnonce" class="form-label">Type de l'annonce</label>
+                                    <select class="form-select" name="typeAnnonce" id="typeAnnonce">
+                                        <option value="" th:selected="${immobilierForm.typeAnnonce == null}">Sélectionnez un type</option>
+                                        <option th:each="type : ${typeAnnonce}" th:value="${type.name()}" th:text="${type.name()}" th:selected="${immobilierForm.typeAnnonce == type}">Type</option>
+                                    </select>
+                                </div>
 
-                <label for="photo">Photo</label>
-                <input type="file" th:field="*{photo}" id="photo" name="photo" />
+                                <!-- Photo -->
+                                <div class="mb-3">
+                                    <label for="photo" class="form-label">Photo</label>
+                                    <input type="file" class="form-control" th:field="*{photo}" id="photo" name="photo" />
+                                </div>
 
-                <button type="submit">Mettre à jour</button>
-            </form>
+                                <!-- Bouton Submit -->
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
