@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
 
+
 @Controller
 @RequestMapping("/immobilier")
 public class BienController {
@@ -57,7 +58,9 @@ public class BienController {
             Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("typeBien", TypeBien.values());
+            model.addAttribute("immobilierForm", immobilierForm);
             model.addAttribute("typeAnnonce", TypeAnnonce.values());
+
             return "add-immobilier";
         }
         Bien immobilier = new Bien();
@@ -86,11 +89,11 @@ public class BienController {
             immobilier.setPhoto("images/" + fileName);
         }
         immobilierService.addImmobilier(immobilier);
-        Annonce annonce = new Annonce();
+       /* Annonce annonce = new Annonce();
         annonce.setBien(immobilier);
         annonce.setTypeAnnonce(immobilierForm.getTypeAnnonce()); // TypeAnnonce récupéré du formulaire
         annonce.setEcheance(LocalDate.now().plusMonths(6));
-        annonceService.addAnnonce(annonce);
+        annonceService.addAnnonce(annonce);*/
         return "redirect:/immobilier/list";
     }
 
@@ -120,24 +123,32 @@ public class BienController {
     @PostMapping("/update/{id}")
     public String updateImmobilier(
             @PathVariable Long id,
-            @Valid @ModelAttribute BienForm immobilierForm,
+            @Valid @ModelAttribute("immobilierForm") BienForm immobilierForm,
             BindingResult bindingResult,
             @RequestParam MultipartFile photo,
             @RequestParam Long immobilierId,
             Model model) {
+
+        System.out.println("ERREURA 9AD RAS SARRA W RAEN MAABAADHOM:"+immobilierId);
+
         if (!id.equals(immobilierId)) {
             model.addAttribute("errorMessage", "Les IDs ne correspondent pas.");
+            model.addAttribute("immobilierForm", immobilierForm);
             model.addAttribute("typeBien", TypeBien.values());
             model.addAttribute("typeAnnonce", TypeAnnonce.values());
             return "edit-immobilier";
         }
         if (bindingResult.hasErrors()) {
             model.addAttribute("typeBien", TypeBien.values());
+            model.addAttribute("immobilierForm", immobilierForm);
             model.addAttribute("typeAnnonce", TypeAnnonce.values());
+            model.addAttribute("immobilierId", immobilierId);
+
+            System.out.println("Validation Errors:" + bindingResult.getAllErrors());
             return "edit-immobilier";
         }
-
         Bien immobilier = immobilierService.getImmobilierById(immobilierId);
+
         if (immobilier == null) {
             return "redirect:/immobilier/list";
         }
@@ -163,6 +174,7 @@ public class BienController {
                     e.printStackTrace();
                     model.addAttribute("errorMessage", "Erreur lors du téléchargement de la photo.");
                     model.addAttribute("typeBien", TypeBien.values());
+                    model.addAttribute("immobilierForm", immobilierForm);
                     model.addAttribute("typeAnnonce", TypeAnnonce.values());
                     return "edit-immobilier";
                 }

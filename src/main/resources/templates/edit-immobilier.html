@@ -16,7 +16,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card shadow-sm">
-                       
+
                         <div class="card-body">
                             <form th:action="@{/immobilier/update/{id}(id=${immobilierId})}" th:object="${immobilierForm}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" th:value="${immobilierId}" name="immobilierId" />
@@ -25,36 +25,54 @@
                                 <div class="mb-3">
                                     <label for="titre" class="form-label">Titre</label>
                                     <input type="text" class="form-control" th:field="*{titre}" id="titre" name="titre" placeholder="Entrez le titre">
+                                    <div th:if="${#fields.hasErrors('titre')}" class="text-danger">
+                                        <span th:errors="*{titre}">Titre Error</span>
+                                    </div>
                                 </div>
 
                                 <!-- Superficie -->
                                 <div class="mb-3">
                                     <label for="superficie" class="form-label">Superficie</label>
                                     <input type="number" class="form-control" th:field="*{superficie}" id="superficie" name="superficie" placeholder="Entrez la superficie">
+                                    <div th:if="${#fields.hasErrors('superficie')}" class="text-danger">
+                                        <span th:errors="*{superficie}">Superficie Error</span>
+                                    </div>
                                 </div>
 
                                 <!-- Prix -->
                                 <div class="mb-3">
                                     <label for="prix" class="form-label">Prix</label>
                                     <input type="number" class="form-control" th:field="*{prix}" id="prix" name="prix" placeholder="Entrez le prix">
+                                    <div th:if="${#fields.hasErrors('prix')}" class="text-danger">
+                                        <span th:errors="*{prix}">Prix Error</span>
+                                    </div>
                                 </div>
 
                                 <!-- Localisation -->
                                 <div class="mb-3">
                                     <label for="localisation" class="form-label">Localisation</label>
                                     <input type="text" class="form-control" th:field="*{localisation}" id="localisation" name="localisation" placeholder="Entrez la localisation">
+                                    <div th:if="${#fields.hasErrors('localisation')}" class="text-danger">
+                                        <span th:errors="*{localisation}">Localisation Error</span>
+                                    </div>
                                 </div>
 
                                 <!-- Description -->
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Description</label>
                                     <textarea class="form-control" th:field="*{description}" id="description" name="description" rows="4" placeholder="Entrez une description"></textarea>
+                                    <div th:if="${#fields.hasErrors('description')}" class="text-danger">
+                                        <span th:errors="*{description}">Description Error</span>
+                                    </div>
                                 </div>
 
                                 <!-- Contact -->
                                 <div class="mb-3">
                                     <label for="contact" class="form-label">Contact</label>
                                     <input type="text" class="form-control" th:field="*{contact}" id="contact" name="contact" placeholder="Entrez les informations de contact">
+                                    <div th:if="${#fields.hasErrors('contact')}" class="text-danger">
+                                        <span th:errors="*{contact}">Contact Error</span>
+                                    </div>
                                 </div>
 
                                 <!-- Type de Bien -->
@@ -64,6 +82,9 @@
                                         <option value="" th:selected="${immobilierForm.typeBien == null}">Sélectionnez un type</option>
                                         <option th:each="type : ${typeBien}" th:value="${type.name()}" th:text="${type.name()}" th:selected="${immobilierForm.typeBien == type}">Type</option>
                                     </select>
+                                    <div th:if="${#fields.hasErrors('typeBien')}" class="text-danger">
+                                        <span th:errors="*{typeBien}">Type de Bien Error</span>
+                                    </div>
                                 </div>
 
                                 <!-- Type d'Annonce -->
@@ -73,19 +94,26 @@
                                         <option value="" th:selected="${immobilierForm.typeAnnonce == null}">Sélectionnez un type</option>
                                         <option th:each="type : ${typeAnnonce}" th:value="${type.name()}" th:text="${type.name()}" th:selected="${immobilierForm.typeAnnonce == type}">Type</option>
                                     </select>
+                                    <div th:if="${#fields.hasErrors('typeAnnonce')}" class="text-danger">
+                                        <span th:errors="*{typeAnnonce}">Type d'Annonce Error</span>
+                                    </div>
                                 </div>
 
                                 <!-- Photo -->
                                 <div class="mb-3">
                                     <label for="photo" class="form-label">Photo</label>
                                     <input type="file" class="form-control" th:field="*{photo}" id="photo" name="photo" />
+                                    <div th:if="${#fields.hasErrors('photo')}" class="text-danger">
+                                        <span th:errors="*{photo}">Photo Error</span>
+                                    </div>
                                 </div>
 
-                                <!-- Bouton Submit -->
+                                <!-- Submit Button -->
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-primary">Mettre à jour</button>
                                 </div>
                             </form>
+
                         </div>
                     </div>
                 </div>
